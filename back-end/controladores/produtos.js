@@ -73,13 +73,7 @@ const cadastrarProduto = async (req, res) => {
 
 const atualizarProduto = async (req, res) => {
   
-// Buscar o produto no banco de dados pelo id informado na rota
-// Validar se o produto existe e se pertence ao usuário logado
-// Validar os campos obrigatórios:
-// nome
-// estoque
-// preco
-// descricao
+// Validar se o produto pertence ao usuário logado
 // Atualizar o produto no banco de dados
   
   const { id } = req.params
@@ -109,9 +103,9 @@ const atualizarProduto = async (req, res) => {
       return res.status(400).json("O campo descricao é obrigatorio.")
     }
 
-    const atualizandoProduto = await conexao.query('update produtos set nome = $1, estoque = $2, preco = $3, descricao = $4, imagem = $5 where id = $6', [nome, estoque, preco, descricao, imagem, id])
+    const excluindoProduto = await conexao.query('update produtos set nome = $1, estoque = $2, preco = $3, descricao = $4, imagem = $5 where id = $6', [nome, estoque, preco, descricao, imagem, id])
 
-    if (atualizandoProduto.rowCount === 0) {
+    if (excluindoProduto.rowCount === 0) {
 
       return res.status(404).json('Não foi possivel atualizar o produto')
     }
@@ -127,8 +121,30 @@ const atualizarProduto = async (req, res) => {
 const excluirProduto = async (req, res) => {
   
 // Validar se o produto existe e se pertence ao usuário logado
-// Deletar o produto do banco de dados
   
+  const { id } = req.params
+  
+  try {
+    
+    const produto = await conexao.query('select * from produtos where id = $1', [id])
+    
+    if (produto.rowCount === 0) {
+      return res.status(404).json('Produto não encontrado')
+    }
+    
+        const excluindoProduto = await conexao.query('delete from produtos where id = $1', [id])
+
+    if (excluindoProduto.rowCount === 0) {
+
+      return res.status(404).json('Não foi possivel excluir o produto')
+    }
+
+    return res.status(200).json('Produto excluido com sucesso.')
+    
+  } catch (error) {
+    
+    return res.status(400).json(error.message)
+  }
 }
 
 module.exports = {
