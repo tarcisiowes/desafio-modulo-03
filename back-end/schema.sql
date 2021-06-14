@@ -13,8 +13,8 @@ create table produtos(
   usuario_id serial,
   nome varchar(60) not null,
   estoque integer not null,
-  categoria varchar(20) not null,
+  categoria varchar(20),
   preco integer not null,
-  descricao text,
+  descricao text not null,
   imagem text
 );
