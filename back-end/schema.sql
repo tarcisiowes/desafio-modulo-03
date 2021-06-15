@@ -1,14 +1,14 @@
-create database market_cubos;
+create database if not exists market_cubos;
 
-create table usuarios(
+create table if not exists usuarios(
   id serial primary key,
   nome varchar(60) not null,
   nome_loja varchar(60) not null,
   email varchar(30) not null,
-  senha varchar(20) not null
+  senha text not null
 );
 
-create table produtos(
+create table if not exists produtos(
   id serial primary key,
   usuario_id serial,
   nome varchar(60) not null,
