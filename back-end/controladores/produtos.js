@@ -1,6 +1,8 @@
 const conexao = require('../conexao')
 
 const listarProdutos = async (req, res) => {
+
+  // Filtrar produtos por categoria.
  
   try {
     
@@ -14,6 +16,8 @@ const listarProdutos = async (req, res) => {
 }
 
 const obterProduto = async (req, res) => {
+  
+  // Validar se o produto existe e se pertence ao usuário logado
   
   const {id} = req.params
   try {
