@@ -1,7 +1,10 @@
 const conexao = require('../conexao')
-const securePassword = require("secure-password")
 
+const securePassword = require("secure-password")
 const pwd = securePassword()
+
+const jwt = require('jsonwebtoken')
+const jwtSecret = require('../jwt_secret')
 
 const cadastrarUsuario = async (req, res) => {
 
@@ -55,7 +58,6 @@ const cadastrarUsuario = async (req, res) => {
 
 const logarUsuario = async (req, res) => {
 
-// Criar token de autenticação com id do usuário
 // Retornar um objeto com os dados do usuario (sem a senha) e o token criado
   
   const { email, senha } = req.body
@@ -98,9 +100,15 @@ const logarUsuario = async (req, res) => {
         break
     }
 
-    return res.json(`Bem vindo ${ usuario.nome }`)
-    // email: ${usuario.email }
-    // loja: ${usuario.nome_loja}
+    const token = jwt.sign({
+      
+      id: usuario.id,
+      nome: usuario.nome,
+      email: usuario.email,
+      loja: usuario.nome_loja
+    }, jwtSecret)
+
+    return res.json(token)
 
   } catch (error) {
     return res.status(400).json(error.message)
