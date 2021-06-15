@@ -1,8 +1,23 @@
 const conexao = require('../conexao')
 
+const jwt = require('jsonwebtoken')
+const jwtSecret = require('../jwt_secret')
+
 const listarProdutos = async (req, res) => {
 
   // Filtrar produtos por categoria.
+  const { token } = req.body
+  
+  if (!token) {
+    return res.status(400).json("O campo token é obrigatorio.")
+  }
+  try {
+
+    const usuario = jwt.verify(token, jwtSecret)
+  } catch (error) {
+    
+    return res.status(400).json("O token  fornecido é invalido.")
+  }
  
   try {
     
@@ -17,9 +32,22 @@ const listarProdutos = async (req, res) => {
 
 const obterProduto = async (req, res) => {
   
-  // Validar se o produto existe e se pertence ao usuário logado
+  // Validar se o produto existe
   
-  const {id} = req.params
+  const { id } = req.params
+  const { token } = req.body
+  
+  if (!token) {
+    return res.status(400).json("O campo token é obrigatorio.")
+  }
+  try {
+
+    const usuario = jwt.verify(token, jwtSecret)
+  } catch (error) {
+    
+    return res.status(400).json("O token  fornecido é invalido.")
+  }
+
   try {
     
     const produto = await conexao.query('select * from produtos where id = $1', [id])
@@ -42,22 +70,34 @@ const cadastrarProduto = async (req, res) => {
   
   try {
     
-    const { nome, estoque, preco, descricao, imagem } = req.body
+    const { nome, estoque, preco, descricao, imagem, token } = req.body
+
     
     if (!nome) {
       return res.status(400).json("O campo nome é obrigatorio.")
     }
-
-      if (!estoque) {
+    
+    if (!estoque) {
       return res.status(400).json("O campo estoque é obrigatorio.")
     }
-
-      if (!preco) {
+    
+    if (!preco) {
       return res.status(400).json("O campo preco é obrigatorio.")
     }
-
-      if (!descricao) {
+    
+    if (!descricao) {
       return res.status(400).json("O campo descricao é obrigatorio.")
+    }
+    
+    if (!token) {
+    return res.status(400).json("O campo token é obrigatorio.")
+    }
+    try {
+
+    const usuario = jwt.verify(token, jwtSecret)
+    } catch (error) {
+    
+    return res.status(400).json("O token  fornecido é invalido.")
     }
     
     const produto = await conexao.query('insert into produtos (nome, estoque, preco, descricao, imagem) values($1, $2, $3, $4, $5)', [nome, estoque, preco, descricao, imagem])
@@ -77,11 +117,19 @@ const cadastrarProduto = async (req, res) => {
 
 const atualizarProduto = async (req, res) => {
   
-// Validar se o produto pertence ao usuário logado
-// Atualizar o produto no banco de dados
-  
   const { id } = req.params
-  const { nome, estoque, preco, descricao, imagem } = req.body
+  const { nome, estoque, preco, descricao, imagem, token } = req.body
+
+  if (!token) {
+    return res.status(400).json("O campo token é obrigatorio.")
+  }
+  try {
+
+    const usuario = jwt.verify(token, jwtSecret)
+  } catch (error) {
+    
+    return res.status(400).json("O token  fornecido é invalido.")
+  }
   
   try {
     
@@ -124,10 +172,21 @@ const atualizarProduto = async (req, res) => {
 
 const excluirProduto = async (req, res) => {
   
-// Validar se o produto existe e se pertence ao usuário logado
+  const { token } = req.body
   
   const { id } = req.params
-  
+
+  if (!token) {
+    return res.status(400).json("O campo token é obrigatorio.")
+  }
+  try {
+
+    const usuario = jwt.verify(token, jwtSecret)
+  } catch (error) {
+    
+    return res.status(400).json("O token  fornecido é invalido.")
+  }
+
   try {
     
     const produto = await conexao.query('select * from produtos where id = $1', [id])
