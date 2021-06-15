@@ -57,8 +57,6 @@ const cadastrarUsuario = async (req, res) => {
 }
 
 const logarUsuario = async (req, res) => {
-
-// Retornar um objeto com os dados do usuario (sem a senha) e o token criado
   
   const { email, senha } = req.body
   
@@ -108,7 +106,12 @@ const logarUsuario = async (req, res) => {
       loja: usuario.nome_loja
     }, jwtSecret)
 
-    return res.json(token)
+    const { senha: pwUser, ...userData } = usuario
+    
+    return res.status(200).json({
+      usuario: userData,
+      token
+    })
 
   } catch (error) {
     return res.status(400).json(error.message)
