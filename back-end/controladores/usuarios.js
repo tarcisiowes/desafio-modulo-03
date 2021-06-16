@@ -8,8 +8,6 @@ const jwtSecret = require('../jwt_secret')
 
 const cadastrarUsuario = async (req, res) => {
 
-// Criptografar a senha antes de salvar no banco de dados  
-
   const { nome, email, senha, nome_loja } = req.body
 
   if (!nome) {
@@ -123,19 +121,7 @@ const perfilUsuario = async (req, res) => {
 // Consultar usuário no banco de dados pelo id contido no token informado
 // Retornar um objeto com as informações do usuário exceto a senha
 
-  const { token } = req.body
-  
-  if (!token) {
-    return res.status(400).json("O campo token é obrigatorio.")
-  }
-
-  try {
-
-    const usuario = jwt.verify(token, jwtSecret)
-  } catch (error) {
-    
-    return res.status(400).json("O token  fornecido é invalido.")
-  }
+  const { usuario } = req
 
 }
 
@@ -149,20 +135,8 @@ const editarUsuario = async (req, res) => {
 // senha
 // nome_loja
 // Atualizar os dados do usuário
-  
-  const { token } = req.body
-  
-  if (!token) {
-    return res.status(400).json("O campo token é obrigatorio.")
-  }
 
-  try {
-
-    const usuario = jwt.verify(token, jwtSecret)
-  } catch (error) {
-
-    return res.status(400).json("O token  fornecido é invalido.")
-  }
+  const { usuario } = req
 
 }
 
