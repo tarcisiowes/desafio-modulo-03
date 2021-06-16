@@ -31,11 +31,11 @@ export default function Login() {
   return (
 
     <form className={ classes.root } noValidate autoComplete="off" onSubmit={ handleSubmit(onSubmit) }>
-      
+
       { erro && <Alert severity="error">{ erro }</Alert>}
       <Typography variant="h3">Login</Typography>
       <TextField label="Email" {... register('email')} />
-      <TextField label="Senha" {...register('senha')} type="password" />
+      <TextField label="Senha" { ...register('senha', { minLength: 8 }) } type="password" />
       <Button variant="contained" color="secondary" type="submit" >Entrar</Button>
 
     </form>
