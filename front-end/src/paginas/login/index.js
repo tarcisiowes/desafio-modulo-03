@@ -1,15 +1,17 @@
 import './style.js'
 
 import React, { useState } from 'react'
-import useStyles from './style.js';
+import useStyles from './style.js'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Alert from '@material-ui/lab/Alert'
 import Typography from '@material-ui/core/Typography'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { useForm } from 'react-hook-form'
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom'
 import { post } from '../../services/apiClient.js'
+
+import useAuth from '../../hook/useAuth.js'
 
 export default function Login() {
 
@@ -26,8 +28,7 @@ export default function Login() {
 
     try {
    
-      const { erro } = await post('login', data)
-      
+      const { erro } = await post('login',data)
       setLoading(false)
 
       if (erro) {
@@ -35,7 +36,7 @@ export default function Login() {
         setErro(erro)
         return
       }
-      
+
       history.push('/lista')
     
     } catch (error) {
