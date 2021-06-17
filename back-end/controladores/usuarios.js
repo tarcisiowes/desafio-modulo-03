@@ -55,7 +55,7 @@ const cadastrarUsuario = async (req, res) => {
 }
 
 const logarUsuario = async (req, res) => {
-  
+
   const { email, senha } = req.body
   
   if (!email) {

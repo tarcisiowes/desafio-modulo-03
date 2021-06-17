@@ -128,7 +128,7 @@ const excluirProduto = async (req, res) => {
 
   try {
     
-    const produto = await conexao.query('select * from produtos where id = $1', [id])
+    const produto = await conexao.query('select * from produtos where id = $1 and usuario_id = $2', [id, usuario.id])
     
     if (produto.rowCount === 0) {
       return res.status(404).json('Produto não encontrado')
