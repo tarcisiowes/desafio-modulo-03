@@ -1,15 +1,26 @@
 import {
   BrowserRouter as Router,
   Route,
-  Switch
-} from "react-router-dom"
+  Switch,
+  Redirect
+} from 'react-router-dom'
 
-import React from "react";
-import Login from "./paginas/login"
-import Cadastro from "./paginas/cadastro"
-import Lista from "./paginas/lista"
+import React from 'react'
+import Login from './paginas/login'
+import Cadastro from './paginas/cadastro'
+import Lista from './paginas/lista'
 
-import {AuthProvider} from './context/authContext'
+import { AuthProvider } from './context/authContext'
+import useAuth from './hook/useAuth'
+
+function RotasProtegidas(props) {
+  
+  const { token } = useAuth()
+
+  return (
+    <Route render={ () => (token ? props.children : <Redirect to='/' />)} />
+  )
+}
 
 function Routes() {
   return (  
@@ -20,9 +31,13 @@ function Routes() {
         <Switch>
           <Route path="/" exact component={Login} />
           <Route path="/cadastro" component={Cadastro} />
-          <Route path="/lista" component={Lista} />        
+          <RotasProtegidas>
+            
+            <Route path="/lista" component={ Lista } />
+          </RotasProtegidas>
         </Switch>
       </Router>
+
     </AuthProvider>    
   
   );
