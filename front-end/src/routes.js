@@ -35,11 +35,11 @@ function Routes() {
           <Route path="/cadastro" component={Cadastro} />
           <RotasProtegidas>
             
-            <Route path="/lista" component={ Perfil } />
-            <Route path="/lista" component={ PerfilEdit } />
-            <Route path="/lista" component={ Produtos } />
-            <Route path="/lista" component={ ProdutosEdit } />
-            <Route path="/lista" component={ ProdutosRegister } />
+            <Route path="/perfil" component={ Perfil } />
+            <Route path="/perfil/editar" component={ PerfilEdit } />
+            <Route path="/produtos" component={ Produtos } />
+            <Route path="/produtos/:id/editar" component={ ProdutosEdit } />
+            <Route path="/produtos/novo" component={ ProdutosRegister } />
           </RotasProtegidas>
         </Switch>
       </Router>
