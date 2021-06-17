@@ -8,6 +8,12 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100vh',
     gap: '1rem'
   },
+  card: {
+    maxWidth: 300,
+  },
+  media: {
+    height: 150,
+  },
 }))
 
 export default useStyles

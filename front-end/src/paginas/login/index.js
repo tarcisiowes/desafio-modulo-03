@@ -1,5 +1,3 @@
-import './style.js'
-
 import React, { useState } from 'react'
 import useStyles from './style.js'
 import TextField from '@material-ui/core/TextField'
@@ -10,8 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom'
 import { post } from '../../services/apiClient.js'
-
-import useAuth from '../../hook/useAuth.js'
+import useAuth from '../../hook/useAuth'
 
 export default function Login() {
 
@@ -20,6 +17,7 @@ export default function Login() {
   const history = useHistory()
   const [erro, setErro] = useState('')
   const [loading, setLoading] = useState(false)
+  const { logar } = useAuth()
 
   const  onSubmit = async (data) => {
 
@@ -37,7 +35,7 @@ export default function Login() {
         return
       }
 
-      history.push('/lista')
+      history.push('/produtos')
     
     } catch (error) {
       
