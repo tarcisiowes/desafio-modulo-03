@@ -6,8 +6,10 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Alert from '@material-ui/lab/Alert'
 import Typography from '@material-ui/core/Typography'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom';
+import { post } from '../../services/apiClient.js'
 
 export default function Login() {
 
@@ -15,17 +17,33 @@ export default function Login() {
   const { register, handleSubmit } = useForm()
   const history = useHistory()
   const [erro, setErro] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  function onSubmit(data) {
+  const  onSubmit = async (data) => {
 
+    setLoading(true)
     setErro('')
+
     try {
+   
+      const { erro } = await post('login', data)
+      
+      setLoading(false)
+
+      if (erro) {
+        
+        setErro(erro)
+        return
+      }
       
       history.push('/lista')
+    
     } catch (error) {
       
       setErro(error.message)
+      return
     }
+    
   }
   
   return (
@@ -35,8 +53,9 @@ export default function Login() {
       { erro && <Alert severity="error">{ erro }</Alert>}
       <Typography variant="h3">Login</Typography>
       <TextField label="Email" {... register('email')} />
-      <TextField label="Senha" { ...register('senha', { minLength: 8 }) } type="password" />
-      <Button variant="contained" color="secondary" type="submit" >Entrar</Button>
+      <TextField label="Senha" { ...register('senha') } type="password" />
+      <Button variant="contained" color="secondary" type="submit"> Entrar </Button>
+      { loading && <CircularProgress color="inherit" /> }      
 
     </form>
   );

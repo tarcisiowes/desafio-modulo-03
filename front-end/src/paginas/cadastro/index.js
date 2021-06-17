@@ -6,8 +6,10 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Alert from '@material-ui/lab/Alert'
 import Typography from '@material-ui/core/Typography'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import { useForm } from 'react-hook-form'
 import { useHistory } from 'react-router-dom';
+import { post } from '../../services/apiClient.js'
 
 export default function Cadastro() {
 
@@ -15,16 +17,32 @@ export default function Cadastro() {
   const { register, handleSubmit } = useForm()
   const history = useHistory()
   const [erro, setErro] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  function onSubmit(data) {
+  async function onSubmit(data) {
 
+
+    setLoading(true)
     setErro('')
+
     try {
+
+      const { erro } = await post('cadastro', data)
+      
+      setLoading(false)
+
+      if (erro) {
+        
+        setErro(erro)
+        return
+      }
       
       history.push('/')
+    
     } catch (error) {
       
       setErro(error.message)
+      return
     }
   }
   
@@ -40,6 +58,7 @@ export default function Cadastro() {
       <TextField label="Senha" { ...register('senha', { minLength: 8 }) } type="password" />
       <TextField label="Confirmação de Senha" { ...register('senhaConfirmacao', { minLength: 8 }) } type="password" />
       <Button variant="contained" color="secondary" type="submit" >Cadastrar</Button>
+      { loading && <CircularProgress color="inherit" /> } 
 
     </form>
   );

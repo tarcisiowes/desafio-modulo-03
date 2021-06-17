@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'grid',
     placeContent: 'center',
     minHeight: '100vh',
-    gap:'1rem'
+    gap: '1rem'
   },
 }))
 
