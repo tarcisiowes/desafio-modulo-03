@@ -14,17 +14,22 @@ import ModalDelete from '../../components/modalDelete/index.js'
 
 function Produtos() {
 
-  const { token , deslogar} = useAuth()
+  const { deslogar} = useAuth()
   const [produtos, setProdutos] = useState([])
   const classes = useStyles()
 
   async function meusProdutos() {
 
-    const resposta = await get('produtos')
+    try {
+      
+      const listaDeProdutos = await get('produtos')
+      
+      setProdutos(listaDeProdutos)
 
-    const data = await resposta.json
-
-    setProdutos(data)
+    } catch (error) {
+      
+      console.log(error.message)
+    }
     
   }
 
@@ -33,48 +38,52 @@ function Produtos() {
   },[])
   
   return (
-    <div>
+    <div className={classes.root}>
 
-      <Button size="small" color="primary">
+      {/* <Button size="small" color="primary">
         Adicionar novo produto
-      </Button>
+      </Button> */}
 
-      { produtos.map(produto =>
+      { produtos.map(produto => (
+        
+        <Card className={classes.card}>
+          <CardActionArea>
+            <CardMedia
+              className={classes.media}              
+              />
+            <CardContent>
+              <Typography gutterBottom variant="h3" component="h2">
+                {produto.nome}
+              </Typography>
+              <Typography gutterBottom variant="h5" component="h2">
+                {produto.preco}
+              </Typography>
+              <Typography gutterBottom variant="h5" component="h2">
+                {produto.estoque}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {produto.descricao}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+            <ModalDelete />
+          </CardActions>
+        </Card> ))      
       
-            <Card className={classes.card}>
-              <CardActionArea>
-                <CardMedia
-                  className={classes.media}
-                  image=""
-                  title=""
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    Nome
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary" component="p">
-                    Descrição
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions>
-                <ModalDelete />
-              </CardActions>
-            </Card>
+      }
       
-      ) }
-      
-      GET
+      {/* GET
       Carregamento dos produtos da loja (GET /produtos)
       Ao clicar no card do produto, redirecionar para a rota de (/produto/:id/editar)
       Ao clicar no icone de lixo no card do produto, abrir um modal e se o cliente confirmar, deletar o produto (DELETE /produtos/:id)
-      Ao clicar no botão de "ADICIONAR PRODUTO", redirecionar para a rota de (/produtos/novo)
+      Ao clicar no botão de "ADICIONAR PRODUTO", redirecionar para a rota de (/produtos/novo) */}
 
       <Button size="large" color="secondary" variant="contained" onClick={deslogar}>
         Deslogar
       </Button>
     </div>
-  );
+  )
 }
 
 export default Produtos

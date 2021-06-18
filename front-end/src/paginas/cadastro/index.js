@@ -1,5 +1,3 @@
-import './style.js'
-
 import React, { useState } from 'react'
 import useStyles from './style.js'
 import TextField from '@material-ui/core/TextField'
@@ -61,6 +59,6 @@ export default function Cadastro() {
       { loading && <CircularProgress color="inherit" /> } 
 
     </form>
-  );
+  )
 }
 

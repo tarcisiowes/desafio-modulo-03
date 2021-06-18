@@ -19,14 +19,14 @@ export default function Login() {
   const [loading, setLoading] = useState(false)
   const { logar } = useAuth()
 
-  const  onSubmit = async (data) => {
+  async function onSubmit(data) {
 
     setLoading(true)
     setErro('')
 
     try {
    
-      const { erro } = await post('login',data)
+      const { token, erro } = await post('login',data)
       setLoading(false)
 
       if (erro) {
@@ -35,7 +35,10 @@ export default function Login() {
         return
       }
 
-      history.push('/produtos')
+      logar(token)
+      console.log(`token: ${ token }`)
+      
+      history.push('produtos')
     
     } catch (error) {
       
@@ -57,6 +60,5 @@ export default function Login() {
       { loading && <CircularProgress color="inherit" /> }      
 
     </form>
-  );
+  )
 }
-

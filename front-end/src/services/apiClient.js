@@ -12,22 +12,46 @@ async function post(resource, data, token) {
   body: JSON.stringify(data),
 
   })
-
-  return resposta.json()
+  
+  const dados = await resposta.json()
+  
+  return {dados, erro: !resposta.ok}
 }
 
 async function get(resource) {
   const resposta = await fetch(BASE_URL+resource)
-
-  return resposta.json()
+  const dados = await resposta.json()
+  return dados
 }
 
-async function del(resource, data) {
+async function del(resource, data, token) {
   const resposta = await fetch(BASE_URL+resource, {
-  method: 'DELETE',
+    method: 'DELETE',
+    Authorization: token
   })
 
   return resposta.json()
 }
 
-export { post, get, del }
+async function put(resource, data, token) {
+  const resposta = await fetch(BASE_URL+resource, {
+  method: 'PUT',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': token
+  },
+  body: JSON.stringify(data),
+
+  })
+  
+  const dados = await resposta.json()
+  
+  return {dados, erro: !resposta.ok}
+}
+// async function del(resource, data) {
+//   const resposta = await fetch(BASE_URL+resource)
+
+//   return resposta.json()
+// }
+
+export { post, get, del, put }
