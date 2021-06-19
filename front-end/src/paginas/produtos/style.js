@@ -5,7 +5,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'grid',
     placeContent: 'center',
-    placeItems: 'center',
+    // placeItems: 'center',
     minHeight: '100vh',
     gap: '1rem'
   },

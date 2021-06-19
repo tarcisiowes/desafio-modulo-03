@@ -1,6 +1,8 @@
+
 const BASE_URL = 'http://localhost:4000/'
 // http://localhost:4000/login
 // https://desafio-m03.herokuapp.com/
+
 
 async function post(resource, data, token) {
   const resposta = await fetch(BASE_URL+resource, {
@@ -15,11 +17,17 @@ async function post(resource, data, token) {
   
   const dados = await resposta.json()
   
-  return {dados, erro: !resposta.ok}
+  console.log(dados.token)
+  // setToken(dados.token)
+  return { dados, erro: !resposta.ok }
+  
 }
 
-async function get(resource) {
-  const resposta = await fetch(BASE_URL+resource)
+async function get(resource,token) {
+  const resposta = await fetch(BASE_URL+resource, {
+    method: 'GET',
+    Authorization: token
+  })
   const dados = await resposta.json()
   return dados
 }
@@ -27,7 +35,7 @@ async function get(resource) {
 async function del(resource, data, token) {
   const resposta = await fetch(BASE_URL+resource, {
     method: 'DELETE',
-    Authorization: token
+    headers: { Authorization: token }
   })
 
   return resposta.json()

@@ -26,7 +26,7 @@ export default function Login() {
 
     try {
    
-      const { token, erro } = await post('login',data)
+      const { erro } = await post('login',data)
       setLoading(false)
 
       if (erro) {
@@ -35,8 +35,7 @@ export default function Login() {
         return
       }
 
-      logar(token)
-      console.log(`token: ${ token }`)
+      logar()
       
       history.push('produtos')
     
