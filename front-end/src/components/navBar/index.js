@@ -114,10 +114,7 @@ export default function NavBar() {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Typography variant="h2">
-        Meus produtos
-   
-        </Typography>
+
 
       </main>
     </div>
