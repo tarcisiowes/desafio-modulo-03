@@ -26,8 +26,10 @@ export default function Login() {
 
     try {
    
-      const { erro } = await post('login',data)
+      const { erro , dados } = await post('login',data)
       setLoading(false)
+
+      // const dados = await resposta.json()
 
       if (erro) {
         
@@ -35,8 +37,8 @@ export default function Login() {
         return
       }
 
-      logar()
-      
+      console.log(dados.token)
+      logar(dados.token)
       history.push('produtos')
     
     } catch (error) {
@@ -49,6 +51,8 @@ export default function Login() {
   
   return (
 
+    <main className={ classes.root}>
+
     <form className={ classes.root } noValidate autoComplete="off" onSubmit={ handleSubmit(onSubmit) }>
 
       { erro && <Alert severity="error">{ erro }</Alert>}
@@ -58,6 +62,11 @@ export default function Login() {
       <Button variant="contained" color="secondary" type="submit"> Entrar </Button>
       { loading && <CircularProgress color="inherit" /> }      
 
+      <>
+      <Button variant="contained" color="secondary" type="submit" onClick={() => history.push('cadastro')}> REGISTRAR </Button>
+      </>
     </form>
+
+    </main>
   )
 }

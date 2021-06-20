@@ -19,7 +19,6 @@ export default function Cadastro() {
 
   async function onSubmit(data) {
 
-
     setLoading(true)
     setErro('')
 
@@ -56,6 +55,8 @@ export default function Cadastro() {
       <TextField label="Senha" { ...register('senha', { minLength: 8 }) } type="password" />
       <TextField label="Confirmação de Senha" { ...register('senhaConfirmacao', { minLength: 8 }) } type="password" />
       <Button variant="contained" color="secondary" type="submit" >Cadastrar</Button>
+      { loading && <CircularProgress color="inherit" /> }
+      <Button variant="contained" color="secondary" onClick={ () => history.push('produtos') } >Cancelar</Button>
       { loading && <CircularProgress color="inherit" /> } 
 
     </form>

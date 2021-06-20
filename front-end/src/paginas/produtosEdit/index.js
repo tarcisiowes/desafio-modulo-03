@@ -62,7 +62,8 @@ function ProdutosEdit() {
       
       <form className={ classes.root } noValidate autoComplete="off" onSubmit={ handleSubmit(onSubmit) }>
 
-        { erro && <Alert severity="error">{ erro }</Alert>}
+        { erro && <Alert severity="error">{ erro }</Alert> }
+        
         <Typography variant="h3">Adicionar produto</Typography>
         <TextField label="Nome do produto" {... register('nome')} />
         
@@ -93,6 +94,7 @@ function ProdutosEdit() {
         <Button variant="contained" color="inherit" type="submit" >Cancelar</Button>
         
         <Button variant="contained" color="secondary" type="submit" >Atualizar Porduto</Button>
+
         { loading && <CircularProgress color="inherit" /> } 
 
       </form>

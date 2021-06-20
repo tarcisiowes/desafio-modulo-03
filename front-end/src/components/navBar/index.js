@@ -17,13 +17,45 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import StoreIcon from '@material-ui/icons/Store'
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
+// import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import MenuList from '@material-ui/core/MenuList'
 import MenuItem from '@material-ui/core/MenuItem'
 import useStyles from './style'
 import { useHistory } from 'react-router-dom'
 import useAuth from '../../hook/useAuth'
+
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+
+    super(props)
+    this.state = {error: null, errorInfo: null}
+  }
+  componentDidCatch(error, errorInfo) {
+    this.setState({
+      error: error,
+      errorInfo: errorInfo
+    })
+  }
+
+  render() {
+    if (this.state.errorInfo) {
+      
+      return (
+        <div>
+          <h2>something went wrong</h2>
+          <details style={ { whiteSpace: 'prep-wrap' } }>
+            {this.state.error && this.state.error.toString()}
+            <br />
+            {this.state.errorInfo.commponentStack}
+          </details>
+        </div>
+      )
+    }
+    return this.props.children
+  }
+}
 
 export default function NavBar() {
   const classes = useStyles()
@@ -41,7 +73,9 @@ export default function NavBar() {
   }
 
   return (
-    <div className={classes.root}>
+    <div className={ classes.root }>
+      <ErrorBoundary>
+         
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -63,7 +97,17 @@ export default function NavBar() {
           </IconButton>
           <Typography variant="h6" noWrap>
             Bem vindo 
-          </Typography>
+            </Typography>
+
+            <div className={classes.spacing}> </div>
+            
+            <MenuItem onClick={ () => history.push('/novo') }>
+              <ListItemIcon>
+                <AddCircleOutlineIcon></AddCircleOutlineIcon>
+              </ListItemIcon>
+              <Typography variant="inherit">Adicionar novo produto</Typography>
+            </MenuItem>
+
         </Toolbar>
       </AppBar>
       <Drawer
@@ -110,13 +154,14 @@ export default function NavBar() {
           </MenuList>
         </List>
         <Divider />
-
+          
       </Drawer>
       <main className={classes.content}>
-        <div className={classes.toolbar} />
+        <div className={classes.toolbar} />       
 
 
-      </main>
+        </main>
+        </ErrorBoundary>
     </div>
   )
 }

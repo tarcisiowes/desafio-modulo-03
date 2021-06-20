@@ -18,7 +18,7 @@ import ProdutosRegister from './paginas/produtosRegister'
 function RotasProtegidas(props) {
   
   const { token } = useAuth()
-
+  
   return (
     <Route render={ () => (token ? props.children : <Redirect to='/' />)} />
   )

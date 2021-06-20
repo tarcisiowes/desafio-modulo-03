@@ -34,7 +34,6 @@ export default function ProdutosRegister() {
 
   async function onSubmit(data) {
 
-
     setLoading(true)
     setErro('')
 
@@ -50,7 +49,7 @@ export default function ProdutosRegister() {
         return
       }
       
-      history.push('/')
+      history.push('produtos')
     
     } catch (error) {
       

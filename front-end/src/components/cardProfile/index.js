@@ -15,7 +15,7 @@ import { Grid } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 
 
-const Cards = ({produto,produtos,handleDelete,handleRedirect }) => {
+const CardProfile = ({usuario,perfil,handleDelete,handleRedirect }) => {
 
   const classes = useStyles()
 
@@ -34,46 +34,48 @@ const Cards = ({produto,produtos,handleDelete,handleRedirect }) => {
   return (
     <Grid container className={classes.root} spacing={2}>
       <Grid item xs={12}>
-        <Grid container justify="center" spacing='1rem'item key={produto.id}>
+        <Grid container justify="center" spacing='1rem'item key={usuario.id}>
 
           <Card className={classes.card}>
-            <CardActionArea component={ Link } to={ `/produtos/${ produto.id }` }>
+            <CardActionArea component={ Link } to={ `/usuarios/${ usuario.id }` }>
               <CardMedia
-                className={classes.media} image={produto.imagem}              
+                className={classes.media} image={usuario.imagem}              
                 />
-              <CardContent onClick={() => handleRedirect(produto.id)}>
+              <CardContent >
                 <Typography gutterBottom variant="h5" component="h2">
-                ID: {produto.id}
+                ID: {usuario.id}
                 </Typography>
                 <Typography gutterBottom variant="h3" component="h2">
-                  {produto.nome}
+                  {usuario.nome}
                 </Typography>
                 <Typography variant="h5" component="h2">
-                  {produto.preco}
+                  {usuario.email}
                 </Typography>
                 <Typography variant="h5" component="h2">
-                  {produto.estoque}
+                  {usuario.nome_loja}
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {produto.descricao}
-                </Typography>
+
               </CardContent>
             </CardActionArea>
             <CardActions>
               {/* <ModalDelete  /> */ }
                 <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-                    Remover
+                    Editar
                   </Button>
 
                 <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                  <DialogTitle id="form-dialog-title">Deseja remover o produto?</DialogTitle>
+                  <DialogTitle id="form-dialog-title">Deseja editar ou remover o usuario?</DialogTitle>
 
                   <DialogActions>
                     <Button onClick={handleClose} color="primary">
                       Manter
                     </Button>
+                  
+                  <Button onClick={() => handleRedirect(usuario.id)} color="primary">
+                      Remover
+                    </Button>
 
-                    <Button onClick={() => handleDelete(produto.id)} color="primary">
+                    <Button onClick={() => handleDelete(usuario.id)} color="primary">
                       Remover
                     </Button>
                   </DialogActions>
@@ -88,4 +90,4 @@ const Cards = ({produto,produtos,handleDelete,handleRedirect }) => {
   )
 }
 
-export default Cards
+export default CardProfile

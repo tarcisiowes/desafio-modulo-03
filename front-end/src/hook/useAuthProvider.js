@@ -11,7 +11,7 @@ export default function useAuthProvider() {
 
   const logar = (token) => {
 
-    setToken(`Bearer ${token}`)
+    setToken(token)
     setTokenPersistido(token)
   }
 
@@ -22,7 +22,7 @@ export default function useAuthProvider() {
   }
  
   return {
-
+    
     token,
     logar,
     deslogar,

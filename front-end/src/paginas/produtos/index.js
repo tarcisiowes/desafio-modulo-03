@@ -33,13 +33,13 @@ function Produtos() {
   }
   
   useEffect(() => {
+    
     meusProdutos()
-  }, [])
-  
+  }, [])  
 
-  const [setOpen] = React.useState(false)
+  const [ setOpen ] = React.useState(false)
 
-  const handleClose = () => {
+  function handleClose() {
     setOpen(false)
   }
 
@@ -49,10 +49,10 @@ function Produtos() {
       
       const resposta = await del(`produtos/${id}`)
   
-      const data = await resposta.json()
+      setProdutos(resposta)
 
-      setProdutos(data)
     } catch (error) {
+
       console.log(error.message)
     }    
   
@@ -64,16 +64,12 @@ function Produtos() {
     <Grid container justify="space-between" spacing='1rem' >
 
       <NavBar />
-      
-      {/* <Button size="small" color="primary">
-        Adicionar novo produto
-      </Button> */}
 
       { produtos.map((produto) => (
         
         <Grid item key={ produto.id }>
           
-          <Cards produto={ produto } produtos={ produtos } handleDelete={handleDelete} handleRedirect={handleRedirect} />
+          <Cards produto={ produto } produtos={ produtos } handleDelete={() => handleDelete(produto.id)} handleRedirect={handleRedirect} />
 
         </Grid>
       )) }
