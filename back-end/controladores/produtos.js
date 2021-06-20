@@ -42,8 +42,6 @@ const obterProduto = async (req, res) => {
 
 const cadastrarProduto = async (req, res) => {
 
-// Cadastrar o produto no banco de dados para o id do usuario logado  
-  
   const { nome, estoque, preco, descricao, imagem } = req.body
   const { usuario } = req
   
@@ -84,7 +82,7 @@ const cadastrarProduto = async (req, res) => {
 const atualizarProduto = async (req, res) => {
   
   const { id } = req.params
-  const { nome, estoque, preco, descricao, imagem } = req.body
+  let { nome, estoque, preco, descricao, imagem } = req.body
   const { usuario } = req 
 
   if (!nome && !estoque && !preco && !descricao && !imagem) {
@@ -105,6 +103,16 @@ const atualizarProduto = async (req, res) => {
       return res.status(404).json("Usuario não encontrado")
     }
     
+    if (!nome) { nome = produto.nome }
+
+    if (!estoque) { estoque = produto.estoque }
+
+    if (!preco) { preco = produto.preco }
+
+    if (!descricao) { descricao = produto.descricao }
+
+    if (!imagem) { imagem = produto.imagem }
+
     const atualizandoProduto = await conexao.query('update produtos set nome = $1, estoque = $2, preco = $3, descricao = $4, imagem = $5 where id = $6', [nome, estoque, preco, descricao, imagem, usuario.id])
 
     if (atualizandoProduto.rowCount === 0) {

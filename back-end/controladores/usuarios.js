@@ -138,21 +138,29 @@ const editarUsuario = async (req, res) => {
 
   const { usuario } = req
 
-  const { nome, email, senha, nome_loja } = req.body
+  let { nome, email, senha, nome_loja } = req.body
   
   if (!nome && !email && !senha && !nome_loja) {
     return res.status(400).json("É necessario informar algum campo.")
-  }
-
+  }  
+  
   try {
     
     const usuarios = await conexao.query('select * from usuarios where id = $1', [usuario.id])
     
     if (usuarios.rowCount === 0) {
-    return res.status(404).json('Usuario não encontrado')
+      return res.status(404).json('Usuario não encontrado')
     }
+    
+    if (!nome) { nome = usuario.nome }
 
-      const atualizandoUsuario = await conexao.query('update usuarios set nome = $1, email = $2, senha = $3, nome_loja = $4 where id = $5', [nome, email, senha, nome_loja, usuario.id])
+    if (!email) { email = usuario.email }
+
+    if (!senha) { senha = usuario.senha }
+
+    if (!nome_loja) { nome_loja = usuario.nome_loja }
+
+    const atualizandoUsuario = await conexao.query('update usuarios set nome = $1, email = $2, senha = $3, nome_loja = $4 where id = $5', [nome, email, senha, nome_loja, usuario.id])
     
     if (atualizandoUsuario.rowCount === 0) {
       return res.status(404).json('Não foi possivel cadastrar o usuario')
