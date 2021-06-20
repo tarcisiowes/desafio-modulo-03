@@ -136,17 +136,35 @@ const perfilUsuario = async (req, res) => {
 
 const editarUsuario = async (req, res) => {
 
-// Validar se o e-mail já existe no banco de dados, caso o email seja diferente do usuário atual
-// Caso já exista um e-mail igual no banco de dados, a alteração não deve ser permitida (o campo de email deve ser sempre único de banco de dados)
-// Validar os campos obrigatórios:
-// nome
-// email
-// senha
-// nome_loja
-// Atualizar os dados do usuário
-
   const { usuario } = req
 
+  const { nome, email, senha, nome_loja } = req.body
+  
+  if (!nome && !email && !senha && !nome_loja) {
+    return res.status(400).json("É necessario informar algum campo.")
+  }
+
+  try {
+    
+    const usuarios = await conexao.query('select * from usuarios where id = $1', [usuario.id])
+    
+    if (usuarios.rowCount === 0) {
+    return res.status(404).json('Usuario não encontrado')
+    }
+
+      const atualizandoUsuario = await conexao.query('update usuarios set nome = $1, email = $2, senha = $3, nome_loja = $4 where id = $5', [nome, email, senha, nome_loja, usuario.id])
+    
+    if (atualizandoUsuario.rowCount === 0) {
+      return res.status(404).json('Não foi possivel cadastrar o usuario')
+    }
+    
+    return res.status(200).json("Usuario atualizado com sucesso")
+      
+
+  } catch (error) {
+    
+    return res.status(400).json(error.message)
+  }
 }
 
 module.exports = {
