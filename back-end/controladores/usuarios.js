@@ -118,11 +118,20 @@ const logarUsuario = async (req, res) => {
 
 const perfilUsuario = async (req, res) => {
 
-// Consultar usuário no banco de dados pelo id contido no token informado
-// Retornar um objeto com as informações do usuário exceto a senha
-
   const { usuario } = req
 
+  try {
+
+    const { senha: pwUser, ...userData } = usuario
+    
+    return res.status(200).json({
+      usuario: userData,
+ 
+    })
+
+  } catch (error) {
+    return res.status(400).json(error.message)
+  }
 }
 
 const editarUsuario = async (req, res) => {

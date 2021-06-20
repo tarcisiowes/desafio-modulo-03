@@ -5,10 +5,10 @@ const jwtSecret = require('../jwt_secret')
 
 const authy = async (req, res, next) => {
 
-  const { authorization} = req.headers
+  const { authorization } = req.headers
 
   if (!authorization) {
-    return res.status(404).json('token não informado')
+    return res.status(404).json('Token não informado. (BACK-END) ')
   }
 
   try {

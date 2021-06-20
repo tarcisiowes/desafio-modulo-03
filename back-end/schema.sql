@@ -10,7 +10,7 @@ create table if not exists usuarios(
 
 create table if not exists produtos2(
   id serial primary key,
-  usuario_id integer not null,
+  usuario_id serial primary key not null references usuarios (id),
   nome varchar(60) not null,
   estoque integer not null,
   categoria varchar(20),
