@@ -50,3 +50,7 @@ function Routes() {
 }
 
 export default Routes
+
+//eu consegui conectar com minha api Back-end, mas somente quando nao protegia a rota no back
+//tentei muita coisa, video aula, monitor, youtube, infelizmente nao consegui, acho que so refazendo mesmo 
+//mas apesar de ter falhado muita coisa foi esclarecida e ate aprendi mais coisas tambem 
